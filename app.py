@@ -20,5 +20,9 @@ def multiply(a, b):
 def divide(a, b):
     return {'result': a / b}, 200
 
+@app.get('/health')
+def health():
+    return {'status':'up'}, 200
+
 if __name__ == "__main__":
     app.run(debug=True)
