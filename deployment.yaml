@@ -13,7 +13,7 @@ spec:
       maxUnavailable: 50%
       maxSurge: 50%
   replicas: 10
-  selector: 
+  selector:
     matchLabels:
       app: flask-calculator
   template:
@@ -38,4 +38,3 @@ spec:
               port: 5000
             initialDelaySeconds: 5
             periodSeconds: 20
-
