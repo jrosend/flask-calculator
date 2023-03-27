@@ -1,8 +1,8 @@
 #!/bin/env bash
 
-imageTag="study/flask-calculator:0.0.7"
-
 imageTag=$(yq -er ".spec.template.spec.containers[0].image" < deployment.yaml)
+
+echo "Current image tag: $imageTag"
 
 IFS=':' read -ra tagComponents <<< "$imageTag"
 tag=${tagComponents[1]}
@@ -11,6 +11,8 @@ majorMinor="${versionComponents[0]}.${versionComponents[1]}"
 patch=$((versionComponents[2]+1))
 newTag="$majorMinor.$patch"
 newImageTag="${tagComponents[0]}:$newTag"
+
+echo "New image tag: $newImageTag"
 
 minikube image build -t "$newImageTag" .
 
