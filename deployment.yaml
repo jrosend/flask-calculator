@@ -12,7 +12,6 @@ spec:
     rollingUpdate:
       maxUnavailable: 50%
       maxSurge: 50%
-  replicas: 10
   selector:
     matchLabels:
       app: flask-calculator
@@ -24,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: flask-calculator
-          image: study/flask-calculator:0.0.10
+          image: study/flask-calculator:0.0.17
           ports:
             - containerPort: 5000
           livenessProbe:
@@ -38,3 +37,10 @@ spec:
               port: 5000
             initialDelaySeconds: 5
             periodSeconds: 20
+          resources:
+            requests:
+              cpu: 1m
+              memory: 21M
+            limits:
+              cpu: 5m
+              memory: 25M
