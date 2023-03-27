@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-imageTag="study/flask-calculator:0.0.6"
+imageTag="study/flask-calculator:0.0.7"
 
 minikube image build -t "$imageTag" .
 
