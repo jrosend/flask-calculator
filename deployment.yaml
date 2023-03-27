@@ -24,7 +24,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: flask-calculator
-          image: study/flask-calculator:0.0.7
+          image: study/flask-calculator:0.0.10
           ports:
             - containerPort: 5000
           livenessProbe:
