@@ -23,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: flask-calculator
-          image: study/flask-calculator:0.0.17
+          image: study/flask-calculator:0.0.20
           ports:
             - containerPort: 5000
           livenessProbe:
@@ -39,8 +39,8 @@ spec:
             periodSeconds: 20
           resources:
             requests:
-              cpu: 1m
-              memory: 21M
-            limits:
               cpu: 5m
               memory: 25M
+            limits:
+              cpu: 10m
+              memory: 30M
