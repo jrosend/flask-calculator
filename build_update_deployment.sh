@@ -16,6 +16,8 @@ echo "New image tag: $newImageTag"
 
 minikube image build -t "$newImageTag" .
 
-kubectl apply -f deployment.yaml
-
 yq -yi --arg newImageTag "$newImageTag" '.spec.template.spec.containers[0].image = $newImageTag' deployment.yaml
+
+kubectl apply -f deployment.yaml
+kubectl apply -f loadBalancerService.yaml
+kubectl apply -f hpa.yaml
