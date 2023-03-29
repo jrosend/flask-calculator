@@ -10,9 +10,8 @@ from aiohttp import ClientSession
 
 log.basicConfig(format='%(asctime)s %(message)s')
 
-
-requestBatchCount = 20
-requestsCount = 500
+requestBatchCount = 200
+requestsCount = 50
 
 print(f'Sending {requestBatchCount} batches of {requestsCount} requests each')
 
@@ -25,7 +24,7 @@ async def stressTest(requests):
                 response = await resp.json()
                 log.debug(response)
 
-
+startTotalTime = time.time()
 for i in range(0, requestBatchCount):
     requestsList = [
         f'http://127.0.0.1:8001/{operations[random.randint(0, len(operations)-1)]}/{random.randint(0, 1000)}/{random.randint(0, 1000)}'
@@ -36,3 +35,5 @@ for i in range(0, requestBatchCount):
     asyncio.run(stressTest(requestsList))
     seconds = time.time() - start_time
     print('\tFinished in:', time.strftime("%H:%M:%S",time.gmtime(seconds)))
+totalSeconds = time.time() - startTotalTime
+print(f'Test finished in', time.strftime("%H:%M:%S", time.gmtime(totalSeconds)))
