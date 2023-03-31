@@ -19,5 +19,6 @@ minikube image build -t "$newImageTag" .
 yq -yi --arg newImageTag "$newImageTag" '.spec.template.spec.containers[0].image = $newImageTag' deployment.yaml
 
 kubectl apply -f deployment.yaml
-kubectl apply -f loadBalancerService.yaml
+kubectl apply -f service.yaml
 kubectl apply -f hpa.yaml
+kubectl apply -f ingress.yaml
