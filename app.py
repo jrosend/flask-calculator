@@ -7,6 +7,15 @@ log.basicConfig(format='%(asctime)s %(message)s')
 
 app=Flask(__name__)
 
+@app.get('/')
+def doc():
+    return {'endpoints': [
+        'sum/<a>/<b>',
+        'subtract/<a>/<b>',
+        'multiply/<a>/<b>', 
+        'divide/<a>/<b>']
+    }, 200
+
 @app.get('/sum/<int:a>/<int:b>')
 def sum(a, b):
     log.info(f'{a} + {b}')
