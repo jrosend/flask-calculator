@@ -27,7 +27,7 @@ async def stressTest(requests):
 startTotalTime = time.time()
 for i in range(0, requestBatchCount):
     requestsList = [
-        f'http://127.0.0.1:8001/{operations[random.randint(0, len(operations)-1)]}/{random.randint(0, 1000)}/{random.randint(0, 1000)}'
+        f'http://flask.calc/{operations[random.randint(0, len(operations)-1)]}/{random.randint(0, 1000)}/{random.randint(0, 1000)}'
         for _ in range(requestsCount)
     ]
     print(f'{i+1}/{requestBatchCount}: Sending {len(requestsList)} requests...')
