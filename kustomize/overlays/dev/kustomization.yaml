@@ -1,0 +1,9 @@
+nameSpace: dev
+nameSuffix: -dev
+
+resources:
+  - ../../base
+
+patches:
+  - hpa.yaml
+  - ingress.yaml

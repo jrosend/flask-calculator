@@ -10,6 +10,8 @@ from aiohttp import ClientSession
 
 log.basicConfig(format='%(asctime)s %(message)s')
 
+domain='flask-calc.prod'
+
 requestBatchCount = 200
 requestsCount = 50
 
@@ -27,7 +29,7 @@ async def stressTest(requests):
 startTotalTime = time.time()
 for i in range(0, requestBatchCount):
     requestsList = [
-        f'http://flask.calc/{operations[random.randint(0, len(operations)-1)]}/{random.randint(0, 1000)}/{random.randint(0, 1000)}'
+        f'http://{domain}/{operations[random.randint(0, len(operations)-1)]}/{random.randint(0, 1000)}/{random.randint(0, 1000)}'
         for _ in range(requestsCount)
     ]
     print(f'{i+1}/{requestBatchCount}: Sending {len(requestsList)} requests...')

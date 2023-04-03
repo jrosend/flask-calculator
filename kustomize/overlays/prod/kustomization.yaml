@@ -1,0 +1,9 @@
+nameSpace: prod
+nameSuffix: -prd
+
+resources:
+  - ../../base
+
+patches:
+  - hpa.yaml
+  - ingress.yaml
