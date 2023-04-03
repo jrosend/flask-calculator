@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-calculator
+spec:
+  progressDeadlineSeconds: 300
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  template:
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: flask-calculator
+          image: study/flask-calculator:0.0.23
+          ports:
+            - containerPort: 5000
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 5m
+              memory: 25M
+            limits:
+              cpu: 10m
+              memory: 30M

@@ -1,0 +1,11 @@
+nameSpace: dev
+resources:
+  - deployment.yaml
+  - ingress.yaml
+  - service.yaml
+  - hpa.yaml
+
+commonLabels:
+  app: flask-calculator
+
+nameSuffix: -dev
