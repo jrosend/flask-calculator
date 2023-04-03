@@ -39,7 +39,7 @@ log.info(f'Sending {requestBatchCount} batches of {requestsCount} requests each 
 
 operations = ['sum', 'subtract', 'multiply', 'divide']
 
-async def stressTest(requests):
+async def sendRequests(requests):
     async with ClientSession() as session:
         for request in requestsList:
             async with session.get(request) as resp:
@@ -53,9 +53,8 @@ for i in range(0, requestBatchCount):
         for _ in range(requestsCount)
     ]
     log.info(f'{i+1}/{requestBatchCount}: Sending {len(requestsList)} requests...')
-    start_time = time.time()
-    asyncio.run(stressTest(requestsList))
-    seconds = time.time() - start_time
-    log.info(f'\tFinished in: {time.strftime("%H:%M:%S",time.gmtime(seconds))}')
-totalSeconds = time.time() - startTotalTime
-log.info(f'Test finished in {time.strftime("%H:%M:%S", time.gmtime(totalSeconds))}')
+    batchStartTime = time.time()
+    asyncio.run(sendRequests(requestsList))
+    log.info(f'\tFinished in: {time.strftime("%H:%M:%S",time.gmtime(time.time() - batchStartTime))}')
+
+log.info(f'Test finished in {time.strftime("%H:%M:%S", time.gmtime(time.time() - startTotalTime))}')
