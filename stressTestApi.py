@@ -4,18 +4,38 @@ import random
 import asyncio
 import time
 import time
-import logging as log
+import logging
+import argparse
 
 from aiohttp import ClientSession
 
-log.basicConfig(format='%(asctime)s %(message)s')
+logLevels = {
+    'info': logging.INFO,
+    'debug': logging.DEBUG,
+    'error': logging.ERROR,
+    'warning': logging.WARNING
+}
 
-domain='flask-calc.prod'
+parser = argparse.ArgumentParser(description='flask-calc stress test options', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('-c', '--context', help='Context to make requests to', default='dev', choices=['dev', 'prod'])
+parser.add_argument('-b', '--batches', help='Number of request batches to send', type=int, default=100)
+parser.add_argument('-s', '--batch-size', help='Number of request per batch', type=int, default=50)
+parser.add_argument('-l', '--log-level', help='Log level to output', type=str, choices=logLevels.keys(), default='info')
 
-requestBatchCount = 200
-requestsCount = 50
+config = vars(parser.parse_args())
 
-print(f'Sending {requestBatchCount} batches of {requestsCount} requests each')
+log = logging.getLogger()
+log.addHandler(logging.StreamHandler())
+log.setLevel(logLevels[config['log_level']])
+#log.basicConfig(format='%(asctime)s %(message)s')
+
+
+domain=f'flask-calc.{config["context"]}'
+
+requestBatchCount = config['batches']
+requestsCount = config['batch_size']
+
+log.info(f'Sending {requestBatchCount} batches of {requestsCount} requests each to {domain}')
 
 operations = ['sum', 'subtract', 'multiply', 'divide']
 
@@ -32,10 +52,10 @@ for i in range(0, requestBatchCount):
         f'http://{domain}/{operations[random.randint(0, len(operations)-1)]}/{random.randint(0, 1000)}/{random.randint(0, 1000)}'
         for _ in range(requestsCount)
     ]
-    print(f'{i+1}/{requestBatchCount}: Sending {len(requestsList)} requests...')
+    log.info(f'{i+1}/{requestBatchCount}: Sending {len(requestsList)} requests...')
     start_time = time.time()
     asyncio.run(stressTest(requestsList))
     seconds = time.time() - start_time
-    print('\tFinished in:', time.strftime("%H:%M:%S",time.gmtime(seconds)))
+    log.info(f'\tFinished in: {time.strftime("%H:%M:%S",time.gmtime(seconds))}')
 totalSeconds = time.time() - startTotalTime
-print(f'Test finished in', time.strftime("%H:%M:%S", time.gmtime(totalSeconds)))
+log.info(f'Test finished in {time.strftime("%H:%M:%S", time.gmtime(totalSeconds))}')
