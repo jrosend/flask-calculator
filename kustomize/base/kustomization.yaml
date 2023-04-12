@@ -3,6 +3,7 @@ resources:
   - ingress.yaml
   - service.yaml
   - hpa.yaml
+  - config.yaml
 
 commonLabels:
   app: flask-calculator

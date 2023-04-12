@@ -7,3 +7,4 @@ resources:
 patches:
   - hpa.yaml
   - ingress.yaml
+  - config.yaml

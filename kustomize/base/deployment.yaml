@@ -15,9 +15,12 @@ spec:
       restartPolicy: Always
       containers:
         - name: flask-calculator
-          image: study/flask-calculator:0.0.23
+          image: study/flask-calculator:0.0.28
           ports:
             - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: flask-calculator
           livenessProbe:
             tcpSocket:
               port: 5000
