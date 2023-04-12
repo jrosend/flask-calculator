@@ -1,6 +1,8 @@
 #!/bin/env bash
 
-imageTag=$(yq -er ".spec.template.spec.containers[0].image" < deployment.yaml)
+deploymentFile=kustomize/base/deployment.yaml
+
+imageTag=$(yq -er ".spec.template.spec.containers[0].image" < $deploymentFile)
 
 echo "Current image tag: $imageTag"
 
@@ -16,9 +18,4 @@ echo "New image tag: $newImageTag"
 
 minikube image build -t "$newImageTag" .
 
-yq -yi --arg newImageTag "$newImageTag" '.spec.template.spec.containers[0].image = $newImageTag' deployment.yaml
-
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-kubectl apply -f hpa.yaml
-kubectl apply -f ingress.yaml
+yq -yi --arg newImageTag "$newImageTag" '.spec.template.spec.containers[0].image = $newImageTag' $deploymentFile
