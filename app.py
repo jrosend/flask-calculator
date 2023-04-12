@@ -2,18 +2,24 @@
 
 from flask import Flask
 import logging as log
+import os
 
-log.basicConfig(format='%(asctime)s %(message)s')
+environment = os.getenv('ENVIRONMENT')
+
+log.basicConfig(format=f'{environment} - %(asctime)s %(message)s')
 
 app=Flask(__name__)
 
 @app.get('/')
 def doc():
-    return {'endpoints': [
-        'sum/<a>/<b>',
-        'subtract/<a>/<b>',
-        'multiply/<a>/<b>', 
-        'divide/<a>/<b>']
+    return {
+        'environment': environment,
+        'endpoints': [
+            'sum/<a>/<b>',
+            'subtract/<a>/<b>',
+            'multiply/<a>/<b>', 
+            'divide/<a>/<b>'
+        ]
     }, 200
 
 @app.get('/sum/<int:a>/<int:b>')
